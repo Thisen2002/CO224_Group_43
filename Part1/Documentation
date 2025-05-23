@@ -1,0 +1,77 @@
+📘 ALU Functional Documentation – 8-bit ALU
+✅ Common Interface
+Module Name: alu
+
+Inputs:
+
+DATA1 [7:0] – First operand
+
+DATA2 [7:0] – Second operand
+
+SELECT [2:0] – Control signal from control unit (based on OPCODE)
+
+Output:
+
+RESULT [7:0] – Output of selected operation
+
+➕ 1. ADD Operation
+Module: add_unit
+
+Function: RESULT = DATA1 + DATA2
+
+SELECT Code: 3'b000
+
+Delay: #1
+
+Used by: add instruction
+
+➖ 2. SUB Operation
+Module: sub_unit
+
+Function: RESULT = DATA1 - DATA2
+
+SELECT Code: 3'b001
+
+Delay: #1
+
+Used by: sub instruction
+
+🤝 3. AND Operation
+Module: and_unit
+
+Function: RESULT = DATA1 & DATA2
+
+SELECT Code: 3'b010
+
+Delay: #1
+
+Used by: and instruction
+
+🚪 4. OR Operation
+Module: or_unit
+
+Function: RESULT = DATA1 | DATA2
+
+SELECT Code: 3'b011
+
+Delay: #1
+
+Used by: or instruction
+
+🔁 5. FORWARD Operation
+Module: forward_unit
+
+Function: RESULT = DATA2
+
+SELECT Code: 3'b100
+
+Delay: #1
+
+Used by: mov, loadi instructions
+
+🔀 MUX Logic
+Inside alu module
+
+Purpose: Selects output from one of the functional units based on SELECT value.
+
+No delay included for MUX.

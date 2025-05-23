@@ -1,0 +1,100 @@
+📄 Documentation for Register File Module
+🔹 Group Information
+        Group 43
+
+        Members:
+
+        Thisen Lakdinu
+
+        Shashika Sathsarani
+
+        Project: Microprocessor Implementation – Part 2
+
+        Date: 20/05/2025
+
+module reg_file
+🔹 Objective
+        The purpose of this module is to implement a simple 8×8 register file that:
+
+        Stores 8-bit values across 8 registers (register0 to register7).
+
+        Supports asynchronous read operations.
+
+        Supports synchronous write and reset operations using the clock edge.
+
+        Complies with simulated read/write latencies using artificial delays.
+
+🔹 Interface Description
+        Port	Width	Direction	Description
+        IN	8-bit	Input	Data to be written to the register file.
+        INADDRESS	3-bit	Input	Address of the register to write data into (0–7).
+        OUT1	8-bit	Output	Data read from the register pointed to by OUT1ADDRESS.
+        OUT1ADDRESS	3-bit	Input	Address of the register to be read into OUT1.
+        OUT2	8-bit	Output	Data read from the register pointed to by OUT2ADDRESS.
+        OUT2ADDRESS	3-bit	Input	Address of the register to be read into OUT2.
+        WRITE	1-bit	Input	Control signal to enable writing.
+        CLK	1-bit	Input	Clock signal for synchronous operations.
+        RESET	1-bit	Input	Control signal to reset all registers to zero on the rising clock edge.
+
+🔹 Functional Behavior
+        ✅ Register File Design
+        8 Registers: Each 8-bit wide, declared as: REGISTER 0 to 7
+        reg [7:0] REGISTER[7:0];
+🔁 Read Operation (Asynchronous)
+        Both outputs OUT1 and OUT2 are updated asynchronously using the values from addresses OUT1ADDRESS and OUT2ADDRESS respectively.
+
+        A delay of 2 time units is added to simulate realistic read latency:
+
+        assign #2 OUT1 = REGISTER[OUT1ADDRESS];
+        assign #2 OUT2 = REGISTER[OUT2ADDRESS];
+✍️ Write Operation (Synchronous)
+        When WRITE is high and CLK rises, the 8-bit IN value is written to the register addressed by INADDRESS.
+
+        A delay of 1 time unit is introduced to simulate write latency:
+
+        verilog
+        if (WRITE == 1'b1)
+            #1 REGISTER[INADDRESS] = IN;
+🔄 Reset Operation (Synchronous)
+        When RESET is high and the rising edge of CLK occurs, all 8 registers are reset to 0.
+
+        Each register reset uses a 1-time-unit delay (total delay will be consistent across the reset block):
+
+        verilog
+        Copy
+        Edit
+        if (RESET == 1'b1)
+            #1 REGISTER[0] = 8'b00000000;
+            ...
+🧪 Simulation Monitoring
+        A $monitor statement is used to track the real-time status of all 8 registers during simulation for debugging and visualization:
+
+        $monitor("Time:-%0d\nReg1:-%8d\n...", $time, REGISTER[0], ... REGISTER[7]);
+🔹 Timing Diagram Expectations
+        Read latency: 2 time units delay after setting address inputs before valid data appears at OUT1 or OUT2.
+
+        Write latency: 1 time unit delay after clock edge when writing to a register.
+
+        Reset latency: 1 time unit after rising edge of clock when RESET is high.
+
+        Use tools like GTKWave to visualize:
+
+        Register updates on writes
+
+        Reset events clearing values
+
+        Asynchronous reads with observable delays
+
+🔹 Example Usage (for testbench)
+        // Sample signal operations:
+        WRITE = 1;
+        IN = 8'b10101010;
+        INADDRESS = 3'b010; // Write to Register 2
+        // On CLK ↑ → Register[2] = 8'b10101010 (after 1 time unit)
+
+        // Later:
+        OUT1ADDRESS = 3'b010; 
+        // OUT1 will show 8'b10101010 after 2 time units (read delay)
+        🔹 Conclusion
+        This implementation fulfills the requirements of a synchronous and delay-modeled register file for microprocessor operations. It ensures proper data storage, operand provisioning to the ALU, and supports robust simulation with timing-accurate signal behavior.
+
