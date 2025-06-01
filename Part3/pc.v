@@ -1,20 +1,27 @@
-module pc(PC, RESET, CLK);
-    input RESET, CLK;
-    output PC;
+module pc(CLK, RESET, PC);
+    input CLK, RESET;
+    output reg [31:0] PC;
 
-    initial 
+    reg [31:0] PCreg;
+    // Internal signals
+    // wire [2:0] READREG1, READREG2, WRITEREG, ALUOP;
+    always @(posedge CLK) 
     begin
-        CLK = 1b'1;
+        if (RESET == 1'b1) 
+            begin
+                #1
+                PC <= 0;
+                PCreg <= 0;
+            end
+        else 
+            begin
+                #1 PC = PCreg;
+            end
     end
 
-    always @(Reset) 
+    always @(PC) 
     begin
-        if (Reset == 1b'1) 
-        begin
-            PC = 32b'0000_0000_0000_0000_0000_0000_0000_0000;    
-        end    
+        #1 PCreg = PCreg + 4;
     end
 
-    always
-        #1 CLK = ~CLK;
 endmodule

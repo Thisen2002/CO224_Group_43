@@ -53,7 +53,7 @@ module alu (DATA1, DATA2, RESULT, SELECT);
 
 
     //multiplexer for selector input
-    always @(*) 
+    always @(forward_out or add_out or and_out or or_out or SELECT) 
     begin
         if (SELECT == 3'b000)           //forward
             //forward fwd (.DATA2(DATA2), .RESULT(RESULT));

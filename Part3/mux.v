@@ -3,8 +3,9 @@ module mux(DATA1, DATA2, SELECT, OUTPUT);
     input SELECT;
     output reg [7:0] OUTPUT;
 
-    always @(*) begin
-        if (SELECT == 1'b0)
+    always @(DATA1,DATA2,SELECT) 
+    begin
+        if (SELECT == 1'b1)
             OUTPUT = DATA1;
         else
             OUTPUT = DATA2;
