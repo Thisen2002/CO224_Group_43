@@ -3,6 +3,7 @@
 `include "mux.v"
 `include "alu.v"
 `include "two_s_comple.v"
+`include "pc.v"
 
 module cpu(INSTRUCTION, RESET, CLK, PC);
     input RESET, CLK;
@@ -70,20 +71,20 @@ module cpu(INSTRUCTION, RESET, CLK, PC);
         .ALUOP(ALUOP)
     );
 
-    // PC update logic
-    always @(posedge CLK) 
-    begin
-        if (RESET == 1'b1) 
-            begin
-                #1
-                PC = 0;
-                PCreg = 0;
-            end
-        else #1 PC = PCreg;
-    end
+    // // PC update logic
+    // always @(posedge CLK) 
+    // begin
+    //     if (RESET == 1'b1) 
+    //         begin
+    //             #1
+    //             PC = 0;
+    //             PCreg = 0;
+    //         end
+    //     else #1 PC = PCreg;
+    // end
 
-    always @(PC) 
-    begin
-        #1 PCreg = PCreg + 4;
-    end
+    // always @(PC) 
+    // begin
+    //     #1 PCreg = PCreg + 4;
+    // end
 endmodule

@@ -10,8 +10,8 @@ module pc(CLK, RESET, PC);
         if (RESET == 1'b1) 
             begin
                 #1
-                PC <= 0;
-                PCreg <= 0;
+                PC = 0;
+                PCreg = 0;
             end
         else 
             begin
