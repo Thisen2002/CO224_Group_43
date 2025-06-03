@@ -1,4 +1,7 @@
+
+// module for the mux1 and mux 2
 module mux(DATA1, DATA2, SELECT, OUTPUT);
+//port declaration
     input [7:0] DATA1, DATA2;
     input SELECT;
     output reg [7:0] OUTPUT;

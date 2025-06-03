@@ -1,8 +1,12 @@
+
+// control unit for the alu
+// use 8 bit of opcode to find the operations
+
 module control_unit(OPCODE, IMM, SIGN, WRITEENABLE, ALUOP);
-    input[7:0] OPCODE;
-    output reg IMM, SIGN;
-    output reg WRITEENABLE;
-    output reg [2:0] ALUOP;
+    input[7:0] OPCODE;                             // extract from instructions
+    output reg IMM, SIGN;                          // input selecters for the mux1 and mux2
+    output reg WRITEENABLE;                        // write enable for the register
+    output reg [2:0] ALUOP;                        // selector input for the ALU
 
 
     // ...existing code...
