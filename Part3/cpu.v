@@ -1,27 +1,23 @@
-//import files
-`include "reg_file.v"         
-`include "control_unit.v"     
+`include "reg_file.v"
+`include "control_unit.v"
 `include "mux.v"
 `include "alu.v"
 `include "two_s_comple.v"
 `include "pc.v"
 
-// main module cpu
 module cpu(INSTRUCTION, RESET, CLK, PC);
-
-    // port declaration
     input RESET, CLK;
     input [31:0] INSTRUCTION;
-    output reg [31:0] PC;
+    output  [31:0] PC;
 
-    // Internal signals/wires
+    // Internal signals
     wire [2:0] READREG1, READREG2, WRITEREG, ALUOP;
     wire [7:0] IMMEDIATE, REGOUT1, REGOUT2, IN2_S, OUT2_S, OUT_SIGN, OUT_IMM, ALURESULT;
     wire WRITEENABLE, IMM, SIGN;
     wire [7:0] OPCODE;
     reg [31:0] PCreg;
 
-    // Instruction decoding 
+    // Instruction decoding
     assign OPCODE = INSTRUCTION[31:24];
     assign READREG1 = INSTRUCTION[15:8];
     assign WRITEREG = INSTRUCTION[23:16];
@@ -73,6 +69,12 @@ module cpu(INSTRUCTION, RESET, CLK, PC);
         .SIGN(SIGN),
         .WRITEENABLE(WRITEENABLE),
         .ALUOP(ALUOP)
+    );
+
+    pc pc1(
+        .CLK(CLK),
+        .RESET(RESET),
+        .PC(PC)
     );
 
     // // PC update logic

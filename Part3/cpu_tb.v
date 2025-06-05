@@ -9,64 +9,63 @@ module cpu_tb;
     reg CLK, RESET;
     wire [31:0] PC;
     wire [31:0] INSTRUCTION;
+
     
+
     /* 
     ------------------------
      SIMPLE INSTRUCTION MEM
     ------------------------
     */
-    
-    // TODO: Initialize an array of registers (8x1024) named 'instr_mem' to be used as instruction memory
+
+    // ✅ Instruction memory (8-bit wide, 1024 locations)
     reg [7:0] instr_mem [1023:0];
-    
-    // TODO: Create combinational logic to support CPU instruction fetching, given the Program Counter(PC) value 
+
+    // ✅ Instruction fetching logic (with delay)
     assign #2 INSTRUCTION = {instr_mem[PC+3], instr_mem[PC+2], instr_mem[PC+1], instr_mem[PC]};
-    //       (make sure you include the delay for instruction fetching here)
-    
+
     initial
     begin
-        // Initialize instruction memory with the set of instructions you need execute on CPU
-        
-        // METHOD 1: manually loading instructions to instr_mem
-        //{instr_mem[10'd3], instr_mem[10'd2], instr_mem[10'd1], instr_mem[10'd0]} = 32'b00000000000001000000000000000101;
-        //{instr_mem[10'd7], instr_mem[10'd6], instr_mem[10'd5], instr_mem[10'd4]} = 32'b00000000000000100000000000001001;
-        //{instr_mem[10'd11], instr_mem[10'd10], instr_mem[10'd9], instr_mem[10'd8]} = 32'b00000010000001100000010000000010;
-        
-        // METHOD 2: loading instr_mem content from instr_mem.mem file
+        // ✅ Load instruction memory from file
         $readmemb("instr_mem.mem", instr_mem);
+
+        // Optional: Manually load instructions instead of file
+        // {instr_mem[3], instr_mem[2], instr_mem[1], instr_mem[0]} = 32'b00000000000001000000000000000101;
     end
-    
+
     /* 
     -----
      CPU
     -----
     */
     cpu mycpu(INSTRUCTION, RESET, CLK, PC);
-
+    integer i;
     initial
     begin
-    
-        // generate files needed to plot the waveform using GTKWave
+        // ✅ Generate waveform data
         $dumpfile("cpu_wavedata.vcd");
-		$dumpvars(0, cpu_tb);
+        $dumpvars(0, cpu_tb);
         
+        for (i = 0; i < 8; i = i + 1)
+        begin
+            $dumpvars(1, cpu_tb.mycpu.reg_file_inst.REGISTER[i]);
+        end
+
         CLK = 1'b0;
         RESET = 1'b0;
-        
-        // TODO: Reset the CPU (by giving a pulse to RESET signal) to start the program execution
+
+        // ✅ Pulse the RESET signal
         RESET = 1'b1;
         #5;
         RESET = 1'b0;
-        
-        // finish simulation after some time
+
+        // ✅ End simulation after 500 time units
         #500
         $finish;
-        
     end
-    
-    // clock signal generation
+
+    // ✅ Clock generation (toggle every 4 time units)
     always
         #4 CLK = ~CLK;
-        
 
 endmodule

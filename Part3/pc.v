@@ -12,21 +12,15 @@ module pc(CLK, RESET, PC);
     // wire [2:0] READREG1, READREG2, WRITEREG, ALUOP;
     always @(posedge CLK) 
     begin
-        if (RESET == 1'b1)             // if reset change the value of pc to 0
+        if (RESET)             // if reset change the value of pc to 0
             begin
-                #1                     
+                #1 PCreg = 0;
                 PC = 0;
-                PCreg = 0;
             end
         else                          // else assign he pcreg address to the pc
             begin
-                #1 PC = PCreg;
+                #1 PCreg = PCreg + 4;      // update program counter by 4 bytes
+                PC = PCreg;
             end
     end
-
-    always @(PC)                       //when change the pc
-    begin
-        #1 PCreg = PCreg + 4;          // update program counter by 4 bytes
-    end
-
 endmodule
