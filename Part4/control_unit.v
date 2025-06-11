@@ -63,16 +63,16 @@ module control_unit(OPCODE, IMM, SIGN, WRITEENABLE, ALUOP);
                 BEQ = 1'b0; // BEQ is not used in this case
             end
             8'b00000110:  begin
-                JUMP = 1'b1;          //Set JUMP control signal to 1
-                BRANCH = 1'b0;        //Set BRANCH control signal to zero
+                J = 1'b1;          //Set JUMP control signal to 1
+                BEQ = 1'b0;        //Set BRANCH control signal to zero
                 WRITEENABLE = 1'b0;   //Disable writing to register
             end
             8'b00000111:  begin
                 ALUOP = 3'b001;          //Set ALU to ADD
                 immSelect = 1'b0;        //Set MUX to select register input
                 signSelect = 1'b1;       //Set sign select MUX to negative sign
-                JUMP = 1'b0;             //Set JUMP control signal to zero
-                BRANCH = 1'b1;           //Set BRANCH control signal to 1
+                J = 1'b0;             //Set JUMP control signal to zero
+                BEQ = 1'b1;           //Set BRANCH control signal to 1
                 WRITEENABLE = 1'b0;      //Enable writing to register
             end
         endcase
