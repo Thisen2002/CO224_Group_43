@@ -19,36 +19,61 @@ module control_unit(OPCODE, IMM, SIGN, WRITEENABLE, ALUOP);
                 SIGN = 1'b0;
                 WRITEENABLE = 1'b1;
                 ALUOP = 3'b000; // ADD (for immediate)
+                J = 1'b0; // J is not used in this case
+                BEQ = 1'b0; // BEQ is not used in this case
             end
             8'b0000_0001: begin // MOV              READREG2
                 IMM = 1'b0;
                 SIGN = 1'b0;
                 WRITEENABLE = 1'b1;
                 ALUOP = 3'b000; // ADD (pass-through)
+                J = 1'b0; // J is not used in this case
+                BEQ = 1'b0; // BEQ is not used in this case
             end
             8'b0000_0010: begin // ADD              READREG2, READREG1
                 IMM = 1'b0;
                 SIGN = 1'b0;
                 WRITEENABLE = 1'b1;
                 ALUOP = 3'b001; // ADD
+                J = 1'b0; // J is not used in this case
+                BEQ = 1'b0; // BEQ is not used in this case
             end
             8'b0000_0011: begin // SUB              READREG1, READREG2
                 IMM = 1'b0;
                 SIGN = 1'b1;
                 WRITEENABLE = 1'b1;
                 ALUOP = 3'b001; // SUB
+                J = 1'b0; // J is not used in this case
+                BEQ = 1'b0; // BEQ is not used in this case
             end
             8'b0000_0100: begin // AND              READREG1, READREG2
                 IMM = 1'b0;
                 SIGN = 1'b0;
                 WRITEENABLE = 1'b1;
                 ALUOP = 3'b010; // AND
+                J = 1'b0; // J is not used in this case
+                BEQ = 1'b0; // BEQ is not used in this case
             end
             8'b0000_0101: begin // OR               READREG1, READREG2
                 IMM = 1'b0;
                 SIGN = 1'b0;
                 WRITEENABLE = 1'b1;
                 ALUOP = 3'b011; // OR
+                J = 1'b0; // J is not used in this case
+                BEQ = 1'b0; // BEQ is not used in this case
+            end
+            8'b00000110:  begin
+                JUMP = 1'b1;          //Set JUMP control signal to 1
+                BRANCH = 1'b0;        //Set BRANCH control signal to zero
+                WRITEENABLE = 1'b0;   //Disable writing to register
+            end
+            8'b00000111:  begin
+                ALUOP = 3'b001;          //Set ALU to ADD
+                immSelect = 1'b0;        //Set MUX to select register input
+                signSelect = 1'b1;       //Set sign select MUX to negative sign
+                JUMP = 1'b0;             //Set JUMP control signal to zero
+                BRANCH = 1'b1;           //Set BRANCH control signal to 1
+                WRITEENABLE = 1'b0;      //Enable writing to register
             end
         endcase
     end  
