@@ -38,18 +38,33 @@ module orunit (DATA1, DATA2, RESULT);
 
     assign #1 RESULT = DATA1 | DATA2;
 endmodule
+module beq(OUTPUT, DATA1, DATA2);
+    input [7:0] DATA1, DATA2;
+    output OUTPUT;
+
+    // Logic to determine if DATA1 and DATA2 are equal
+    assign if (DATA1 == DATA2) begin
+        OUTPUT = 1'b1; // If equal, set OUTPUT to true
+    end 
+    else 
+    begin
+        OUTPUT = 1'b0; // If not equal, set OUTPUT to false
+    end
+endmodule
 
 //module for alu unit
-module alu (DATA1, DATA2, RESULT, SELECT);
+module alu (DATA1, DATA2, RESULT, SELECT, ZERO);
     input[7:0] DATA1, DATA2;
     input[2:0] SELECT;
     output reg[7:0] RESULT;
+    output ZERO;
     wire [7:0] forward_out, add_out, and_out, or_out;
 
     forward fwd (.DATA2(DATA2), .RESULT(forward_out));               //instance for forkward
     addunit add (.DATA1(DATA1), .DATA2(DATA2), .RESULT(add_out));    //instance for add
     andunit andg (.DATA1(DATA1), .DATA2(DATA2), .RESULT(and_out));   //instance for and
     orunit org (.DATA1(DATA1), .DATA2(DATA2), .RESULT(or_out));      //instance for or
+    beq eq (.OUTPUT(ZERO), .DATA1(DATA1), .DATA2(DATA2));           //instance for beq
 
 
     //multiplexer for selector input
@@ -64,5 +79,7 @@ module alu (DATA1, DATA2, RESULT, SELECT);
             RESULT = and_out;
         else if (SELECT == 3'b011)     //or
             RESULT = or_out;
+        else if (SELECT == 3'b100)     //beq
+            RESULT = ZERO;
     end
 endmodule
