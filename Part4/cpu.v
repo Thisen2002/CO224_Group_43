@@ -4,6 +4,11 @@
 `include "alu.v"
 `include "two_s_comple.v"
 `include "pc.v"
+`include "shift_2.v"
+`include "signextent.v"
+`include "logic_choice.v"
+`include "mux_32.v"
+`include "adder.v"
 
 module cpu(INSTRUCTION, RESET, CLK, PC);
     input RESET, CLK;
@@ -76,6 +81,8 @@ module cpu(INSTRUCTION, RESET, CLK, PC);
         .RESET(RESET),
         .PC(PC)
     );
+
+    
 
     // // PC update logic
     // always @(posedge CLK) 

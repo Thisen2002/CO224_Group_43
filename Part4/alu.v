@@ -59,12 +59,13 @@ module alu (DATA1, DATA2, RESULT, SELECT, ZERO);
     output reg[7:0] RESULT;
     output ZERO;
     wire [7:0] forward_out, add_out, and_out, or_out;
+    wire zero;
 
     forward fwd (.DATA2(DATA2), .RESULT(forward_out));               //instance for forkward
     addunit add (.DATA1(DATA1), .DATA2(DATA2), .RESULT(add_out));    //instance for add
     andunit andg (.DATA1(DATA1), .DATA2(DATA2), .RESULT(and_out));   //instance for and
     orunit org (.DATA1(DATA1), .DATA2(DATA2), .RESULT(or_out));      //instance for or
-    beq eq (.OUTPUT(ZERO), .DATA1(DATA1), .DATA2(DATA2));           //instance for beq
+    beq eq (.OUTPUT(zero), .DATA1(DATA1), .DATA2(DATA2));           //instance for beq
 
 
     //multiplexer for selector input
@@ -80,6 +81,6 @@ module alu (DATA1, DATA2, RESULT, SELECT, ZERO);
         else if (SELECT == 3'b011)     //or
             RESULT = or_out;
         else if (SELECT == 3'b100)     //beq
-            RESULT = ZERO;
+            RESULT = zero;
     end
 endmodule
