@@ -94,7 +94,7 @@ module cpu(INSTRUCTION, RESET, CLK, PC);
         .NEW_PC(PC)
     );
 
-    //new
+    //part4
     signextent signextent_inst (
         .INPUT(OFFSET),
         .OUTPUT(EXT_OUT)

@@ -15,7 +15,7 @@ module pc(CLK, RESET, NEW_PC, PC);
             #1 PCreg = 0;
             PC = 0;
         end
-        else if (NEW_PC != PCreg) begin
+        else if (NEW_PC != PCreg) begin   // for the jump and branch instructions change pc reg value to new branch or jump pc value
             #1 PCreg = NEW_PC;
             PC = PCreg;
         end

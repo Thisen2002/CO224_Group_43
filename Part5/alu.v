@@ -5,6 +5,8 @@ Microprocessor implementation part-1 test case.
 Date:-20/05/2025
 */
 
+//implementation for part 5
+`include "multiplier_8bit.v"
 
 // DATA1 and DATA2 are the inputs
 // module for function add and sub
@@ -60,15 +62,15 @@ module alu (DATA1, DATA2, RESULT, SELECT, ZERO);
     input[2:0] SELECT;
     output reg signed [7:0] RESULT;
     output ZERO;
-    wire [7:0] forward_out, add_out, and_out, or_out;
+    wire [7:0] forward_out, add_out, and_out, or_out, mul_out;
     wire zero;
 
-    forward fwd (.DATA2(DATA2), .RESULT(forward_out));               //instance for forkward
-    addunit add (.DATA1(DATA1), .DATA2(DATA2), .RESULT(add_out));    //instance for add
-    andunit andg (.DATA1(DATA1), .DATA2(DATA2), .RESULT(and_out));   //instance for and
-    orunit org (.DATA1(DATA1), .DATA2(DATA2), .RESULT(or_out));      //instance for or
-    //beq eq (.OUTPUT(zero), .DATA1(DATA1), .DATA2(DATA2));           //instance for beq
-
+    forward fwd (.DATA2(DATA2), .RESULT(forward_out));                           //instance for forkward
+    addunit add (.DATA1(DATA1), .DATA2(DATA2), .RESULT(add_out));                //instance for add
+    andunit andg (.DATA1(DATA1), .DATA2(DATA2), .RESULT(and_out));               //instance for and
+    orunit org (.DATA1(DATA1), .DATA2(DATA2), .RESULT(or_out));                  //instance for or
+    //beq eq (.OUTPUT(zero), .DATA1(DATA1), .DATA2(DATA2));                      //instance for beq
+    multiplier_8bit multiplier_1(.DATA1(DATA1),.DATA2(DATA2),.Product(mul_out)); //instance for 8 bit multiplier
 
     //multiplexer for selector input
     always @(forward_out or add_out or and_out or or_out or SELECT) 
@@ -82,8 +84,8 @@ module alu (DATA1, DATA2, RESULT, SELECT, ZERO);
             RESULT = and_out;
         else if (SELECT == 3'b011)     //or
             RESULT = or_out;
-        // else if (SELECT == 3'b100)     //beq
-        //     RESULT = zero;
+        else if (SELECT == 3'b100)     //multiply
+            RESULT = mul_out;
     end
 
     assign ZERO = (RESULT == 0);

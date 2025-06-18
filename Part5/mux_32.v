@@ -1,3 +1,4 @@
+//part 4
 //module for the 32 bit mux (for beq and jump)
 module mux_32(DATA1, DATA2, SELECT, OUTPUT);
 

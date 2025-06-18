@@ -64,6 +64,8 @@ module control_unit(J, BEQ, OPCODE, IMM, SIGN, WRITEENABLE, ALUOP);
                 J = 1'b0; // J is not used in this case
                 BEQ = 1'b0; // BEQ is not used in this case
             end
+
+            //part4 branch and jump instructions
             8'b00000110:  begin
                 J = 1'b1;          //Set JUMP control signal to 1
                 BEQ = 1'b0;        //Set BRANCH control signal to zero

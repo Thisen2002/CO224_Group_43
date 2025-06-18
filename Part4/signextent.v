@@ -1,3 +1,5 @@
+// part4
+// sign extend the pc offset of branch and jump instructions
 module signextent(OUTPUT, INPUT);
     input [7:0] INPUT;
     output [31:0] OUTPUT;
