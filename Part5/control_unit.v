@@ -64,6 +64,10 @@ module control_unit(J, BEQ, OPCODE, IMM, SIGN, WRITEENABLE, ALUOP);
                 J = 1'b0; // J is not used in this case
                 BEQ = 1'b0; // BEQ is not used in this case
             end
+
+
+            // patr 4 branch and jump instructions
+
             8'b00000110:  begin
                 J = 1'b1;          //Set JUMP control signal to 1
                 BEQ = 1'b0;        //Set BRANCH control signal to zero
@@ -77,6 +81,20 @@ module control_unit(J, BEQ, OPCODE, IMM, SIGN, WRITEENABLE, ALUOP);
                 BEQ = 1'b1;           //Set BRANCH control signal to 1
                 WRITEENABLE = 1'b0;      //Enable writing to register
             end
+
+
+
+            //part5
+            
+            8'b0000_1001: begin // multiply two registers    READREG1, READREG2
+                IMM = 1'b0;
+                SIGN = 1'b1;
+                WRITEENABLE = 1'b1;
+                ALUOP = 3'b100; // ADD (for immediate)
+                J = 1'b0; // J is not used in this case
+                BEQ = 1'b0; // BEQ is not used in this case
+            end
+
         endcase
     end  
 

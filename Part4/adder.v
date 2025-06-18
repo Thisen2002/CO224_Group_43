@@ -1,5 +1,5 @@
-
-
+//part 4
+// adder to calculate the next pc value 
 module adder(OUTPUT,DATA1,DATA2);
 
     input signed [31:0] DATA1,DATA2;

@@ -1,4 +1,5 @@
-
+//part4 
+//dder for calculate thr next pc values for branch and jump instructions
 
 module adder(OUTPUT,DATA1,DATA2);
 

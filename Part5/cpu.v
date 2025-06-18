@@ -11,6 +11,9 @@
 `include "mux_32.v"
 `include "adder.v"
 
+//part5
+`include "multiplier_8bit.v"
+
 module cpu(INSTRUCTION, RESET, CLK, PC);
     input RESET, CLK;
     input [31:0] INSTRUCTION;
@@ -125,7 +128,8 @@ module cpu(INSTRUCTION, RESET, CLK, PC);
         .ZERO(ZERO_OUT)
     );
 
-
+    //part5
+    
     
 
     // // PC update logic

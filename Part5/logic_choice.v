@@ -1,3 +1,5 @@
+
+//logic unit(and , or) for branch and jump
 module logic_choice(OUTPUT, J, BEQ, ZERO);
     input J, BEQ, ZERO;
     output OUTPUT;
