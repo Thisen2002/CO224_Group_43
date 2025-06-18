@@ -27,7 +27,7 @@ module cpu(INSTRUCTION, RESET, CLK, PC);
     
     wire [7:0] OFFSET;
     wire [31:0] EXT_OUT, SHIFT_OUT, PC_NEW, MUX_32_IN;
-    wire ZERO_OUT, JUMP_OUT, BEQ_OUT, LOGIC_OUT;
+    wire ZERO_OUT, JUMP_OUT, BEQ_OUT, LOGIC_OUT, BNEQ_OUT;
 
     // Instruction decoding
     assign OPCODE = INSTRUCTION[31:24];
@@ -84,7 +84,8 @@ module cpu(INSTRUCTION, RESET, CLK, PC);
         .WRITEENABLE(WRITEENABLE),
         .ALUOP(ALUOP),
         .J(JUMP_OUT),
-        .BEQ(BEQ_OUT)
+        .BEQ(BEQ_OUT),
+        .BNEQ(BNEQ_OUT)
     );
 
     pc pc1(
@@ -122,7 +123,8 @@ module cpu(INSTRUCTION, RESET, CLK, PC);
         .OUTPUT(LOGIC_OUT),
         .J(JUMP_OUT),
         .BEQ(BEQ_OUT),
-        .ZERO(ZERO_OUT)
+        .ZERO(ZERO_OUT),
+        .BNEQ(BNEQ_OUT)
     );
 
 
