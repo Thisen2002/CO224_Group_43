@@ -80,6 +80,6 @@ module multiplier( INPUT1, INPUT2, OUT);
     Fulladder FA6_0 (.A(sum5),    .B(INPUT1[7] & INPUT2[0]), .C(1'b0),      .SUM(OUTPUT[7]), .CARRY(dummy6));
 
     // Assign OUTPUT to OUT
-    assign OUT = OUTPUT;
+    assign #3 OUT = OUTPUT;
 
 endmodule

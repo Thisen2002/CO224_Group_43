@@ -1,8 +1,7 @@
 module left(INPUT, SHIFT, OUT);
     input  [7:0] INPUT;
     input  [2:0] SHIFT;        // 3 bits are enough for 0–7 shift amount
-    output [7:0] OUT;
-    reg [7:0] OUT;
+    output reg [7:0] OUT;
 
     always @(*) begin
         case(SHIFT)
@@ -21,8 +20,8 @@ endmodule
 
 module right(INPUT, SHIFT, OUT);
     input  [7:0] INPUT;
-    input  signed [3:0] SHIFT;
-    output [7:0] OUT;
+    input  signed [2:0] SHIFT;
+    output reg [7:0] OUT;
 
    always @(*) begin
         case(SHIFT)

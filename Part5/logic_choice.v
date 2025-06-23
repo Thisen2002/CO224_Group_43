@@ -1,5 +1,5 @@
-module logic_choice(OUTPUT, J, BEQ, ZERO);
-    input J, BEQ, ZERO;
+module logic_choice(OUTPUT, J, BEQ, ZERO, BNEQ);
+    input J, BEQ, ZERO, BNEQ;
     output OUTPUT;
 
     // Logic to determine the output based on J and BEQ
