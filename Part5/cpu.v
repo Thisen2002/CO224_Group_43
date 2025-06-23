@@ -12,7 +12,7 @@
 `include "adder.v"
 
 //part5
-`include "multiplier_8bit.v"
+//`include "multiplier_8bit.v"
 
 module cpu(INSTRUCTION, RESET, CLK, PC);
     input RESET, CLK;
@@ -88,7 +88,7 @@ module cpu(INSTRUCTION, RESET, CLK, PC);
         .ALUOP(ALUOP),
         .J(JUMP_OUT),
         .BEQ(BEQ_OUT),
-        .BNEQ(BNEQ_OUT)
+        .BNEQ(BNEQ_OUT)    //Part5
     );
 
     pc pc1(

@@ -6,7 +6,8 @@ Date:-20/05/2025
 */
 
 //implementation for part 5
-`include "multiplier_8bit.v"
+`include "multiplier.v"
+`include "shift.v"
 
 // DATA1 and DATA2 are the inputs
 // module for function add and sub
@@ -40,19 +41,7 @@ module orunit (DATA1, DATA2, RESULT);
 
     assign #1 RESULT = DATA1 | DATA2;
 endmodule
-// module beq(OUTPUT, DATA1, DATA2);
-//     input [7:0] DATA1, DATA2;
-//     output OUTPUT;
 
-//     // Logic to determine if DATA1 and DATA2 are equal
-//     assign if (DATA1 == DATA2) begin
-//         OUTPUT = 1'b1; // If equal, set OUTPUT to true
-//     end 
-//     else 
-//     begin
-//         OUTPUT = 1'b0; // If not equal, set OUTPUT to false
-//     end
-// endmodule
 
 
 
@@ -62,7 +51,7 @@ module alu (DATA1, DATA2, RESULT, SELECT, ZERO);
     input[2:0] SELECT;
     output reg signed [7:0] RESULT;
     output ZERO;
-    wire [7:0] forward_out, add_out, and_out, or_out, mul_out;
+    wire [7:0] forward_out, add_out, and_out, or_out, mul_out, LShift, RShift, ROTATE; //intermediate wires for outputs
     wire zero;
 
     forward fwd (.DATA2(DATA2), .RESULT(forward_out));                           //instance for forkward
@@ -70,7 +59,10 @@ module alu (DATA1, DATA2, RESULT, SELECT, ZERO);
     andunit andg (.DATA1(DATA1), .DATA2(DATA2), .RESULT(and_out));               //instance for and
     orunit org (.DATA1(DATA1), .DATA2(DATA2), .RESULT(or_out));                  //instance for or
     //beq eq (.OUTPUT(zero), .DATA1(DATA1), .DATA2(DATA2));                      //instance for beq
-    multiplier_8bit multiplier_1(.DATA1(DATA1),.DATA2(DATA2),.Product(mul_out)); //instance for 8 bit multiplier
+    multiplier multiplier_1(.INPUT1(DATA1),.INPUT2(DATA2),.OUT(mul_out)); //instance for 8 bit multiplier
+    left LShift_1 (.INPUT(DATA1), .SHIFT(DATA2[2:0]), .OUT(LShift));            //instance for left shift
+    right RShift_1 (.INPUT(DATA1), .SHIFT(DATA2[2:0]), .OUT(RShift)); //instance for right shift
+    rotate_right ROTATE_1 (.INPUT(DATA1), .SHIFT(DATA2[2:0]), .OUT(ROTATE)); //instance for arithmetic right shift
 
     //multiplexer for selector input
     always @(forward_out or add_out or and_out or or_out or SELECT) 
@@ -84,8 +76,14 @@ module alu (DATA1, DATA2, RESULT, SELECT, ZERO);
             RESULT = and_out;
         else if (SELECT == 3'b011)     //or
             RESULT = or_out;
-        else if (SELECT == 3'b100)     //multiply
+        else if (SELECT == 3'b110)     //multiply
             RESULT = mul_out;
+        else if (SELECT == 3'b100)     //
+            RESULT = LShift;
+        else if (SELECT == 3'b101)     //right shift
+            RESULT = RShift;
+        else if (SELECT == 3'b111)     //arithmetic right shift
+            RESULT = ROTATE;
     end
 
     assign ZERO = (RESULT == 0);
