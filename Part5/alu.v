@@ -65,7 +65,7 @@ module alu (DATA1, DATA2, RESULT, SELECT, ZERO);
     rotate_right ROTATE_1 (.INPUT(DATA1), .SHIFT(DATA2[2:0]), .OUT(ROTATE)); //instance for arithmetic right shift
 
     //multiplexer for selector input
-    always @(forward_out or add_out or and_out or or_out or SELECT) 
+    always @(forward_out or add_out or and_out or or_out or SELECT or mul_out or LShift or RShift or ROTATE) 
     begin
         if (SELECT == 3'b000)           //forward
             //forward fwd (.DATA2(DATA2), .RESULT(RESULT));
@@ -78,7 +78,7 @@ module alu (DATA1, DATA2, RESULT, SELECT, ZERO);
             RESULT = or_out;
         else if (SELECT == 3'b110)     //multiply
             RESULT = mul_out;
-        else if (SELECT == 3'b100)     //
+        else if (SELECT == 3'b100)     //left shift
             RESULT = LShift;
         else if (SELECT == 3'b101)     //right shift
             RESULT = RShift;

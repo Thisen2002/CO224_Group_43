@@ -116,7 +116,7 @@ module control_unit(J, BEQ, BNEQ, OPCODE, IMM, SIGN, WRITEENABLE, ALUOP);
                 IMM = 1'b0;
                 SIGN = 1'b0;
                 WRITEENABLE = 1'b1;
-                ALUOP = 3'b100; // ADD (for immediate)
+                ALUOP = 3'b100; // Lshift (for immediate)
                 J = 1'b0; // J is not used in this case
                 BEQ = 1'b0; // BEQ is not used in this case
                 BNEQ = 1'b0; // Enable branch if not equal

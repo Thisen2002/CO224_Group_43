@@ -3,7 +3,8 @@ module left(INPUT, SHIFT, OUT);
     input  [2:0] SHIFT;        // 3 bits are enough for 0–7 shift amount
     output reg [7:0] OUT;
 
-    always @(*) begin
+    always @(INPUT or SHIFT) begin
+        
         case(SHIFT)
             3'd0: OUT = INPUT;
             3'd1: OUT = {INPUT[6:0], 1'b0};
